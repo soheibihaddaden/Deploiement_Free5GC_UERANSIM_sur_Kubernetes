@@ -19,7 +19,7 @@ Simulation complète d’un réseau **5G Standalone (SA)** local avec le cœur o
 
 ## Architecture
 
-``text
+```text
 +-----------------+      N1/N2      +--------------------+
 |     UE (SIM)    | <-------------> |        AMF         |
 +-----------------+                 +--------------------+
@@ -33,19 +33,3 @@ Simulation complète d’un réseau **5G Standalone (SA)** local avec le cœur o
                                          | N6
                                          v
                                 (Internet via NAT)
-                                
-## Prérequis
-
-- Linux (Ubuntu 22.04/24.04 recommandé)
-- Docker
-- kind v0.22.0+
-- kubectl & helm v3
-
-```bash
-sudo apt update && sudo apt install docker.io -y
-
-# Installation de kind
-curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-linux-amd64
-chmod +x ./kind
-sudo mv ./kind /usr/local/bin/
-
