@@ -78,5 +78,48 @@ kubectl get configmap gnb-configmap -n free5gc -o yaml > /tmp/gnb.yaml
 kubectl apply -f /tmp/gnb.yaml
 kubectl delete pod -n free5gc -l component=gnb
 ```
+## Création de l’abonné (WebUI)
+
+URL : http://localhost:3000 → *admin / free5gc*
+
+| Champ | Valeur |
+|-------|--------|
+| IMSI  | 208930000000003 |
+| Key   | 8baf473f2f8fd09487ccb... |
+| OPC   | 8e27b6af0e692e750f326... |
+| DNN   | internet |
+| SST   | 1 |
+| SD    | 010203 |
+
+---
+
+## Tests réalisés
+
+### ✔️ Registration UE
+```bash
+kubectl logs -n free5gc <UE_POD> | grep -i Registration
+# → Registration Accept
+```
+
+### ✔️ Connexion gNB → AMF
+```bash
+kubectl logs -n free5gc <GNB_POD> | grep NGSetup
+# → NG Setup successful
+```
+
+### ✔️ Association PFCP (SMF ↔ UPF)
+```bash
+kubectl logs -n free5gc -l app=smf | grep PFCP
+kubectl logs -n free5gc -l app=upf | grep PFCP
+# → PFCP Association Setup Accepted
+```
+
+### ✔️ Établissement de PDU Session
+```bash
+kubectl logs -n free5gc <UE_POD> | grep "PDU Session Establishment Accept"
+```
+
+---
+
 
 
