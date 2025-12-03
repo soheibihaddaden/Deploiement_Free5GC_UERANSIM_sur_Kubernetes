@@ -45,7 +45,7 @@ Simulation complète d’un réseau **5G Standalone (SA)** local avec le cœur o
 ```bash
 sudo apt update && sudo apt install docker.io -y
 ```
-# Installation de kind
+## Installation de kind
 ```bash
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-linux-amd64
 chmod +x ./kind
@@ -118,7 +118,6 @@ kubectl logs -n free5gc -l app=upf | grep PFCP
 ```bash
 kubectl logs -n free5gc <UE_POD> | grep "PDU Session Establishment Accept"
 ```
-# Déploiement Free5GC + UERANSIM sur Kubernetes (Kind)
 
 ## Vérification du plan utilisateur (GTP-U)
 
