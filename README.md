@@ -33,3 +33,50 @@ Simulation complète d’un réseau **5G Standalone (SA)** local avec le cœur o
                                          | N6
                                          v
                                 (Internet via NAT)
+
+```
+## Prérequis
+
+- Linux (Ubuntu 22.04/24.04 recommandé)
+- Docker
+- kind v0.22.0+
+- kubectl & helm v3
+
+```bash
+sudo apt update && sudo apt install docker.io -y
+```
+# Installation de kind
+```bash
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-linux-amd64
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/
+
+```
+## Déploiement Free5GC + UERANSIM
+
+### Création du cluster Kind
+```bash
+kind create cluster --name free5gc
+```
+
+### Déploiement de Free5GC
+```bash
+helm repo add free5gc https://free5gc.org/charts
+helm repo update
+helm install free5gc-premier free5gc/free5gc -n free5gc --create-namespace
+```
+
+### Déploiement UERANSIM (gNB + UE)
+```bash
+helm install ueransim-premier free5gc/ueransim -n free5gc
+```
+
+### Configuration du gNB (obligatoire)
+```bash
+kubectl get configmap gnb-configmap -n free5gc -o yaml > /tmp/gnb.yaml
+# Modifier ngapIp (AMF) et gtpIp (gNB) selon votre cluster
+kubectl apply -f /tmp/gnb.yaml
+kubectl delete pod -n free5gc -l component=gnb
+```
+
+
